@@ -46,7 +46,7 @@ async function getAllRecipeNames() {
   return parsedRecipes.map((recipe) => recipe.name);
 }
 
-// 4. getRecipesCount()
+// ✅ 4. getRecipesCount()
 async function getRecipesCount() {
   const data = await fs.readFile("recipes-data.json", "utf8");
   const parsedRecipes = JSON.parse(data);
@@ -78,7 +78,7 @@ app.get("/get-all-recipe-names", async (req, res) => {
   res.json(names);
 });
 
-// 4. GET /get-recipes-count
+// ✅  4. GET /get-recipes-count
 app.get("/get-recipes-count", async (req, res) => {
   const count = await getRecipesCount();
   res.json(count);
