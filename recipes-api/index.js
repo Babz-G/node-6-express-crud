@@ -47,6 +47,11 @@ async function getAllRecipeNames() {
 }
 
 // 4. getRecipesCount()
+async function getRecipesCount() {
+  const data = await fs.readFile("recipes-data.json", "utf8");
+  const parsedRecipes = JSON.parse(data);
+  return parsedRecipes.length;
+}
 
 // ---------------------------------
 // API Endpoints
@@ -74,3 +79,7 @@ app.get("/get-all-recipe-names", async (req, res) => {
 });
 
 // 4. GET /get-recipes-count
+app.get("/get-recipes-count", async (req, res) => {
+  const count = await getRecipesCount();
+  res.json(count);
+});
