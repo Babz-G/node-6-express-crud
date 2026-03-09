@@ -33,11 +33,12 @@ async function getAllRecipes() {
   return parsedRecipes;
 }
 // ✅ 2. getOneRecipe(index)
-async function getOneRecipe(index) {
-  const data = await fs.readFile("recipes-data.json", "utf8");
-  const parsedRecipe = JSON.parse(data);
-  return parsedRecipe[index];
-}
+
+// async function getOneRecipe(index) {
+//   const data = await fs.readFile("recipes-data.json", "utf8");
+//   const parsedRecipe = JSON.parse(data);
+//   return parsedRecipe[index];
+// }
 
 // ✅ 3. getAllRecipeNames()
 async function getAllRecipeNames() {
@@ -66,11 +67,12 @@ app.get("/get-all-recipes", async (req, res) => {
 });
 
 // ✅ 2. GET /get-one-recipe/:index
-app.get("/get-one-recipe/:index", async (req, res) => {
-  const index = req.params.index;
-  const recipe = await getOneRecipe(index);
-  res.json(recipe);
-});
+
+// app.get("/get-one-recipe/:index", async (req, res) => {
+//   const index = req.params.index;
+//   const recipe = await getOneRecipe(index);
+//   res.json(recipe);
+// });
 
 // ✅ 3. GET /get-all-recipe-names
 app.get("/get-all-recipe-names", async (req, res) => {
@@ -82,4 +84,32 @@ app.get("/get-all-recipe-names", async (req, res) => {
 app.get("/get-recipes-count", async (req, res) => {
   const count = await getRecipesCount();
   res.json(count);
+});
+
+// ---------------------------------------
+//        Add Error Handling
+// ---------------------------------------
+
+async function getOneRecipe(index) {
+  const data = await fs.readFile("recipes-data.json", "utf8");
+  const parsedRecipe = JSON.parse(data);
+
+  const recipe = parsedRecipe[index];
+  if (!recipe) {
+    throw new Error("Recipe was not found");
+  }
+  return recipe;
+}
+
+app.get("/get-one-recipe/:index", async (req, res) => {
+  try {
+    const index = req.params.index;
+    const recipe = await getOneRecipe(index);
+    res.json(recipe);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Server error. Something went wrong while getting the recipe",
+    });
+  }
 });
