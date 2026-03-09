@@ -41,11 +41,12 @@ async function getAllRecipes() {
 // }
 
 // ✅ 3. getAllRecipeNames()
-async function getAllRecipeNames() {
-  const data = await fs.readFile("recipes-data.json", "utf8");
-  const parsedRecipes = JSON.parse(data);
-  return parsedRecipes.map((recipe) => recipe.name);
-}
+
+// async function getAllRecipeNames() {
+//   const data = await fs.readFile("recipes-data.json", "utf8");
+//   const parsedRecipes = JSON.parse(data);
+//   return parsedRecipes.map((recipe) => recipe.name);
+// }
 
 // ✅ 4. getRecipesCount()
 async function getRecipesCount() {
@@ -75,10 +76,10 @@ app.get("/get-all-recipes", async (req, res) => {
 // });
 
 // ✅ 3. GET /get-all-recipe-names
-app.get("/get-all-recipe-names", async (req, res) => {
-  const names = await getAllRecipeNames();
-  res.json(names);
-});
+// app.get("/get-all-recipe-names", async (req, res) => {
+//   const names = await getAllRecipeNames();
+//   res.json(names);
+// });
 
 // ✅  4. GET /get-recipes-count
 app.get("/get-recipes-count", async (req, res) => {
@@ -86,9 +87,9 @@ app.get("/get-recipes-count", async (req, res) => {
   res.json(count);
 });
 
-// ---------------------------------------
-//        Add Error Handling
-// ---------------------------------------
+// ---------------------------------------------
+//  ✨✨ Add Error Handling for getOneRecipe ✨✨
+// ---------------------------------------------
 
 async function getOneRecipe(index) {
   const data = await fs.readFile("recipes-data.json", "utf8");
@@ -110,6 +111,28 @@ app.get("/get-one-recipe/:index", async (req, res) => {
     console.error(error);
     res.status(500).json({
       error: "Server error. Something went wrong while getting the recipe",
+    });
+  }
+});
+
+// ---------------------------------------
+//        ✨✨ getAllRecipeNames ✨✨
+// ---------------------------------------
+
+async function getAllRecipeNames() {
+  const data = await fs.readFile("recipes-data.json", "utf8");
+  const parsedRecipes = JSON.parse(data);
+  return parsedRecipes.map((recipe) => recipe.name);
+}
+
+app.get("/get-all-recipe-names", async (req, res) => {
+  try {
+    const names = await getAllRecipeNames();
+    res.json(names);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Server error. Something went wrong while getting recipe names",
     });
   }
 });
