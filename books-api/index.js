@@ -76,7 +76,6 @@ app.get("/get-one-book-title/:index", async (req, res) => {
   // call the helper function
   const book = await getOneBookTitle(index);
   // send the book as JSON in the response
-  res.json(book);
 });
 
 // helper function
@@ -90,7 +89,7 @@ async function getOneBook(index) {
   const book = parsedBooks[index];
 
   if (!book) {
-    throw new error("Book was not found");
+    throw new Error("Book was not found");
   }
   return book;
 }
@@ -101,7 +100,7 @@ async function getOneBook(index) {
 app.get("/get-one-book/:index", async (req, res) => {
   // get the value of the dynamic parameter
 
-  // try all of this risky code. if theres an error, catch it.
+  // attempt to run this code, catch if anything goes wrong & do this instead."
   try {
     const index = req.params.index;
     // call the helper function
