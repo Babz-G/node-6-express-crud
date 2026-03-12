@@ -146,23 +146,23 @@ async function getOneRecipe(index) {
 
   const recipe = parsedRecipe[index]; // picks the recipe at the given position
   if (!recipe) {
-    // if no recipe exists there...
-    throw new Error("Recipe was not found"); // ...stop and report an error
+    // if no recipe exists tops and report an error
+    throw new Error("Recipe was not found");
   }
-  return recipe; // send the recipe back to whoever asked for it
+  return recipe; // returns the recipe
 }
 
 app.get("/get-one-recipe/:index", async (req, res) => {
-  // listen for requests to this URL
+  // listens for requests to this URL
   try {
-    const index = req.params.index; // grab the number from the URL aka /get-one-recipe/3)
-    const recipe = await getOneRecipe(index); // use the function above to find that recipe
-    res.json(recipe); // send the recipe back to the user
+    const index = req.params.index; // grabs the number from the URL aka /get-one-recipe/3)
+    const recipe = await getOneRecipe(index); // uses the function above to find that recipe
+    res.json(recipe); // sends the recipe back to the user
   } catch (error) {
-    console.error(error); // print what went wrong
+    console.error(error);
     res.status(500).json({
-      // tell the user somethings not cool
-      error: "Server error. Something went wrong while getting the recipe", // ...with this message
+      // tells the user somethings not ok
+      error: "Server error. Something went wrong while getting the recipe",
     });
   }
 });
